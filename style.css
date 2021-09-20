@@ -1,0 +1,18 @@
+#board {
+  background-color: black;
+  column-gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 450px;
+  row-gap: 5px;
+  width: 450px;
+}
+
+.gamesquare {
+  background-color: white;
+  font-size: 150px;
+  line-height: 150px;
+  text-align: center;
+  vertical-align: middle;
+};
