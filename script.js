@@ -19,7 +19,6 @@ let gameController = (function() {
   let squares = document.getElementsByClassName('gamesquare')
   let player1 = createPlayer('player1', 'X');
   let player2 = createPlayer('player2', 'O');
-  let newBoard = []
 
   turn = 0;
 
@@ -28,11 +27,8 @@ let gameController = (function() {
         if (e.currentTarget.innerHTML === '') {
           let nowPlaying = currentPlayer(turn).name
           e.currentTarget.innerHTML = currentPlayer(turn).symbol;
-          console.log('turn #:', turn)
-          console.log('current player:', nowPlaying)
           gameBoard.updateBoard()
           if (turn > 3) {
-            //console.log(gameBoard.board.indexOf(currentPlayer(turn).symbol));
             let foundIndex = gameBoard.board.indexOf(currentPlayer(turn).symbol)
             while (foundIndex > -1 && foundIndex < 8) {
               if (checkWin(gameBoard.board, foundIndex) === 1) {
@@ -42,23 +38,12 @@ let gameController = (function() {
               foundIndex = gameBoard.board.indexOf(currentPlayer(turn).symbol, foundIndex + 1)
             }
           }
-          console.log(gameBoard.board);
           turn++;
+          if (turn === 9) {
+            window.alert('Tie Game')
+          }
         }
       })
-  }
-
-  function checkTop (board) {
-    let boardTop = board.slice(0,3)
-    let foundIndex = boardTop.indexOf(currentPlayer(turn).symbol)
-    while (foundIndex > 0) {
-      if (board[foundIndex] === board[foundIndex + 3] && board[foundIndex] === board[foundIndex +++6]) {
-        return console.log(currentPlayer(turn).name, 'Wins');
-      }
-      else {
-        foundIndex++;
-      }
-    }
   }
 
   function checkVert (board, index) {
