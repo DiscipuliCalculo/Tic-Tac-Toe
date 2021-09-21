@@ -6,29 +6,46 @@ let gameBoard = (function() {
       squares[i].innerHTML = board[i];
     };
 
-    for (i = 0; i < squares[i].length; i++) {
-      if (squares[i].innerHTML === '') {
-        squares[i].addEventListener('click', (e) => {
-          e.currentTarget.innerHTML = 'X'
-        })
-      }
-    }
-
 })();
   
-let game = (function() {
-  player1 = createPlayer('player1');
-  player1.symbol = 'X'
-  player2 = createPlayer('player2');
-  player2.symbol = 'O'
+let gameController = (function() {
+  let squares = document.getElementsByClassName('gamesquare')
+  let player1 = createPlayer('player1', 'X');
+  let player2 = createPlayer('player2', 'O');
 
+  turn = 0;
+  
+  function currentPlayer(turn) {
+    if (turn % 2 === 0) {
+      return player1
+    }
+    else {
+      return player2
+    }
+  }
 
-})
+  for (i = 0; i < squares.length; i++) {
+      squares[i].addEventListener('click', (e) => {
+        if (e.currentTarget.innerHTML === '') {
+          e.currentTarget.innerHTML = currentPlayer(turn).symbol;
+          console.log(turn)
+          console.log(currentPlayer(turn).name)
+          turn++;
+        }
+      })
+  }
+
+  return {
+    player1,
+    player2
+  }
+})();
+
 let displayController = (function() {
   
 })();
 
-function createPlayer(name) {
+function createPlayer(name, symbol) {
   name: name;
   symbol: '';
 
@@ -37,5 +54,3 @@ function createPlayer(name) {
     symbol
   }
 }
-
-console.log(player1.symbol)
