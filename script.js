@@ -34,16 +34,12 @@ let gameController = (function() {
           if (turn > 3) {
             //console.log(gameBoard.board.indexOf(currentPlayer(turn).symbol));
             let foundIndex = gameBoard.board.indexOf(currentPlayer(turn).symbol)
-            if (foundIndex < 3) {       //vertical check
-              console.log(foundIndex);
-              if (gameBoard.board[foundIndex] === gameBoard.board[foundIndex + 3] && gameBoard.board[foundIndex] == gameBoard.board[foundIndex + 6]){
-                return console.log(currentPlayer(turn).name, 'Wins')
-              }
-            }
-            else if (foundIndex === 0 || foundIndex === 3 || foundIndex === 6) {
-              if (gameBoard.board[foundIndex] === gameBoard.board[foundIndex + 1] && gameBoard.board[foundIndex] === gameBoard.board[foundIndex +++2]){
-                return console.log(currentPlayer(turn).name, 'Wins')
-              }
+            while (foundIndex > -1 && foundIndex < 8) {
+              if (checkWin(gameBoard.board, foundIndex) === 1) {
+                window.alert(`${currentPlayer(turn).name} Wins`)
+                return;
+              };
+              foundIndex = gameBoard.board.indexOf(currentPlayer(turn).symbol, foundIndex + 1)
             }
           }
           console.log(gameBoard.board);
@@ -52,16 +48,63 @@ let gameController = (function() {
       })
   }
 
-  function checkWin(board) {
-    let foundIndex = board.indexOf(current(turn).symbol)
-    if (foundIndex < 3) {       //vertical check
+  function checkTop (board) {
+    let boardTop = board.slice(0,3)
+    let foundIndex = boardTop.indexOf(currentPlayer(turn).symbol)
+    while (foundIndex > 0) {
       if (board[foundIndex] === board[foundIndex + 3] && board[foundIndex] === board[foundIndex +++6]) {
-        return console.log(currentPlayer(turn).name, 'Wins')
+        return console.log(currentPlayer(turn).name, 'Wins');
+      }
+      else {
+        foundIndex++;
       }
     }
-    else if (foundIndex === 0 || foundIndex === 3 || foundIndex === 6) {
-      if (board[foundIndex] === board[foundIndex + 1] && board[foundIndex] === board[foundIndex +++2]){
-        return console.log(currentPlayer(turn).name, 'Wins')
+  }
+
+  function checkVert (board, index) {
+    if (board[index] === board[index + 3] && board[index] === board[index  +6]) {
+      return 1;
+    }
+  }
+
+  function checkHorz (board, index) {
+    if (board[index] === board[index + 1] && board[index] === board[index + 2]){
+      return 1;
+    }
+  }
+
+  function checkDiagRight (board, index) {
+    if (board[index] === board[index + 4] && board[index] === board[index + 8]){
+      return 1;
+    }
+  }
+
+  function checkDiagLeft (board, index) {
+    if (board[index] === board[index + 2] && board[index] === board[index + 4]){
+      return 1;
+    }
+  }
+
+
+  function checkWin(board, index) {
+    if (index === 0) {
+      if(checkHorz(board, index) === 1 || checkVert(board, index) === 1 || checkDiagRight(board, index) === 1) {
+        return 1;
+      }
+    }
+    else if (index === 1) {
+      if (checkVert(board, index) === 1) {
+        return 1;
+      }
+    }
+    else if (index === 2) {
+      if (checkDiagLeft(board, index) === 1 || checkVert(board, index) === 1) {
+        return 1;
+      }
+    }
+    else if (index === 3 || index === 6) {
+      if (checkHorz(board, index) === 1) {
+        return 1;
       }
     }
   }
